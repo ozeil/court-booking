@@ -1,11 +1,9 @@
 package de.zeilfelder.tc.courtbooking.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Court")
 public class Court {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +11,8 @@ public class Court {
 
     private String name;
 
-    public Court() {}
+    public Court() {
+    }
 
     public Court(String name) {
         this.name = name;

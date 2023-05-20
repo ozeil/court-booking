@@ -3,7 +3,8 @@ package de.zeilfelder.tc.courtbooking.entities;
 import jakarta.persistence.*;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 
 @Entity
@@ -21,16 +22,20 @@ public class Booking {
     @ManyToOne
     private Court court;
 
-    private LocalDateTime startTime;
+    private LocalDate date;
+
+    private LocalTime startTime;
 
     private Duration duration;
 
-    public Booking() {}
+    public Booking() {
+    }
 
-    public Booking(User user, Set<User> associatedUsers, Court court, LocalDateTime startTime, Duration duration) {
+    public Booking(User user, Set<User> associatedUsers, Court court, LocalDate date, LocalTime startTime, Duration duration) {
         this.user = user;
         this.associatedUsers = associatedUsers;
         this.court = court;
+        this.date = date;
         this.startTime = startTime;
         this.duration = duration;
     }
@@ -67,11 +72,19 @@ public class Booking {
         this.court = court;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 

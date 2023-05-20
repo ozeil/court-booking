@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(name = "Person")
 public class User implements UserDetails {
 
     @Id
@@ -21,12 +22,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(Long id, String firstname, String lastname, String email, String password) {
+    public User(Long id, String firstname, String lastname, String email, String password, Role role) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public User() {
@@ -39,7 +41,7 @@ public class User implements UserDetails {
         setLastname(builder.lastname);
         setEmail(builder.email);
         setPassword(builder.password);
-        role = builder.role;
+        setRole(builder.role);
     }
 
     public Long getId() {
@@ -74,9 +76,17 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
     @Override
