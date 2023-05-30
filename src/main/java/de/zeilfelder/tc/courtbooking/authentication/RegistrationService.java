@@ -18,10 +18,10 @@ public class RegistrationService {
 
     public void register(UserRegistrationDto request) {
         var user = User.Builder.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .firstname(request.firstname())
+                .lastname(request.lastname())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
                 .build();
         repository.save(user);
     }

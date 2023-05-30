@@ -10,16 +10,16 @@ import java.util.Set;
 @Entity
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
     private User user;
 
     @ManyToMany
-    private Set<User> associatedUsers;
+    private Set<User> otherPlayers;
 
-    @ManyToOne
+    @Enumerated
     private Court court;
 
     private LocalDate date;
@@ -31,9 +31,9 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(User user, Set<User> associatedUsers, Court court, LocalDate date, LocalTime startTime, Duration duration) {
+    public Booking(User user, Set<User> otherPlayers, Court court, LocalDate date, LocalTime startTime, Duration duration) {
         this.user = user;
-        this.associatedUsers = associatedUsers;
+        this.otherPlayers = otherPlayers;
         this.court = court;
         this.date = date;
         this.startTime = startTime;
@@ -56,12 +56,12 @@ public class Booking {
         this.user = user;
     }
 
-    public Set<User> getAssociatedUsers() {
-        return associatedUsers;
+    public Set<User> getOtherPlayers() {
+        return otherPlayers;
     }
 
-    public void setAssociatedUsers(Set<User> associatedUsers) {
-        this.associatedUsers = associatedUsers;
+    public void setOtherPlayers(Set<User> associatedUsers) {
+        this.otherPlayers = associatedUsers;
     }
 
     public Court getCourt() {

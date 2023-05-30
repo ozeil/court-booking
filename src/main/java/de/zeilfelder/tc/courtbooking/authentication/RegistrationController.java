@@ -2,7 +2,6 @@ package de.zeilfelder.tc.courtbooking.authentication;
 
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,8 +19,7 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new UserRegistrationDto());
+    public String showRegistrationForm() {
         return "register";
     }
 
@@ -31,7 +29,7 @@ public class RegistrationController {
             return "register";
         }
 
-        if (registrationService.userAlreadyExists(userDto.getEmail())) {
+        if (registrationService.userAlreadyExists(userDto.email())) {
             result.rejectValue("email", "0", "Nutzer mit E-Mail existiert bereits");
             return "register";
         }

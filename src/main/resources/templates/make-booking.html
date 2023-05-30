@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <title>Reservieren</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/webjars/bulma/css/bulma.min.css">
+</head>
+
+<body>
+<h1 th:text="'Reservierung für ' + ${bookingRequest.selectedCourt.getDisplayString()} + ' am ' + ${#temporals.format(bookingRequest.selectedTime, 'dd.MM.yyyy, HH:mm')} + ' Uhr'"></h1>
+<form th:action="@{make-booking}" th:object="${bookingRequest}" method="post">
+    <label for="duration">Spieldauer:</label>
+    <div class="select">
+        <select id="duration" th:field="*{selectedDuration}">
+            <option value="PT1H">1 Stunde</option>
+            <option value="PT2H">2 Stunden</option>
+        </select>
+    </div>
+    <input type="hidden" th:field="*{selectedCourt}">
+    <input type="hidden" th:field="*{selectedTime}">
+    <button type="submit" class="button is-primary">Reservieren</button>
+</form>
+</body>
+</html>

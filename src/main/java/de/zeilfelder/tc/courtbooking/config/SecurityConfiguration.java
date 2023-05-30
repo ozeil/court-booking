@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -34,7 +32,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults());
+                .formLogin((form) -> form
+                        .defaultSuccessUrl("/bookings", true)
+                );
 //                .rememberMe(withDefaults());
 
         return http.build();
@@ -42,14 +42,16 @@ public class SecurityConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
-        var user = User.Builder.builder()
-                .email("oliver.zeilfelder@gmail.com")
-                .firstname("Oliver")
-                .lastname("Zeilfelder")
-                .password(passwordEncoder().encode("1234"))
-                .role(Role.ADMIN)
-                .build();
-        userRepository.save(user);
+
+        userRepository.save(
+                User.Builder.builder()
+                        .email("oliver.zeilfelder@gmail.com")
+                        .firstname("Oliver")
+                        .lastname("Zeilfelder")
+                        .password(passwordEncoder().encode("1234"))
+                        .role(Role.ADMIN)
+                        .build()
+        );
 
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
