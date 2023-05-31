@@ -25,6 +25,7 @@ public class RegistrationController {
 
     @PostMapping
     public String register(@ModelAttribute("user") @Valid UserRegistrationDto userDto, BindingResult result) {
+        // TODO have a look here again especially validation
         if (result.hasErrors()) {
             return "register";
         }
@@ -39,4 +40,5 @@ public class RegistrationController {
         return "redirect:/login?registered";
     }
 
+    // TODO add method to handle batch registration
 }

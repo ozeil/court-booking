@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Set;
 
 @Entity
 public class Booking {
@@ -15,9 +14,6 @@ public class Booking {
 
     @ManyToOne
     private User user;
-
-    @ManyToMany
-    private Set<User> otherPlayers;
 
     @Enumerated
     private Court court;
@@ -31,9 +27,9 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(User user, Set<User> otherPlayers, Court court, LocalDate date, LocalTime startTime, Duration duration) {
+    public Booking(User user, Court court, LocalDate date, LocalTime startTime,
+                   Duration duration) {
         this.user = user;
-        this.otherPlayers = otherPlayers;
         this.court = court;
         this.date = date;
         this.startTime = startTime;
@@ -54,14 +50,6 @@ public class Booking {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<User> getOtherPlayers() {
-        return otherPlayers;
-    }
-
-    public void setOtherPlayers(Set<User> associatedUsers) {
-        this.otherPlayers = associatedUsers;
     }
 
     public Court getCourt() {

@@ -29,4 +29,6 @@ public class RegistrationService {
     public boolean userAlreadyExists(String username) {
         return repository.existsByEmail(username);
     }
+
+    // TODO handle limited booking rights (only court 3) for new TI role
 }

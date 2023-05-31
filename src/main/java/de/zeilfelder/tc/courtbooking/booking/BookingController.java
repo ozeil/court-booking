@@ -2,6 +2,7 @@ package de.zeilfelder.tc.courtbooking.booking;
 
 import de.zeilfelder.tc.courtbooking.entities.Court;
 import de.zeilfelder.tc.courtbooking.entities.User;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -40,8 +41,14 @@ public class BookingController {
     }
 
     @PostMapping("/make-booking")
-    public String makeBooking(@ModelAttribute BookingRequestDto bookingRequest, @AuthenticationPrincipal User user) {
+    public String makeBooking(@ModelAttribute @Valid BookingRequestDto bookingRequest,
+                              @AuthenticationPrincipal User user) throws BookingNotPossibleException {
+        // TODO handle errors when booking goes wrong
         bookingService.makeBooking(bookingRequest, user);
         return "redirect:/bookings";
     }
+
+    // TODO add delete functionality
+
+    // TODO add blocker functionality (returning bookings)
 }

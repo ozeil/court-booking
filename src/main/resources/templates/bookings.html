@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Reservierungen</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/webjars/bulma/css/bulma.min.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="/webjars/bulma/css/bulma.min.css" rel="stylesheet">
 </head>
 <body>
 
-<form th:action="@{/bookings}" method="get">
+<form method="get" th:action="@{/bookings}">
     <label for="datepicker"></label>
-    <input class="box" type="date" id="datepicker" name="date" th:value="${currentDate}"
-           onchange="this.form.submit()"/>
+    <input class="box" id="datepicker" name="date" onchange="this.form.submit()" th:value="${currentDate}"
+           type="date"/>
 </form>
 
 <div class="box" th:each="court : ${T(de.zeilfelder.tc.courtbooking.entities.Court).values()}">
@@ -22,8 +22,8 @@
             <th:block th:switch="${bookings.get(court)?.containsKey(hour) || previousBooking2HoursLong}"
                       th:with="previousBooking2HoursLong = ${bookings.get(court)?.get(hour - 1)?.duration()?.toHours() == 2}">
                 <th:block th:case="true">
-                    <td class="column" th:unless="${previousBooking2HoursLong}"
-                        th:text="${bookings.get(court).get(hour).username()}"></td>
+                    <td class="column" th:text="${bookings.get(court).get(hour).username()}"
+                        th:unless="${previousBooking2HoursLong}"></td>
                     <td class="column" th:if="${previousBooking2HoursLong}"
                         th:text="${bookings.get(court).get(hour - 1).username()}"></td>
                 </th:block>

@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Registrierung</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 </head>
 
 <body>
 <div>
     <h1>Registrierung</h1>
 
-    <form th:action="@{/register}" th:object="${user}" method="post">
+    <form method="post" th:action="@{/register}" th:object="${user}">
         <label for="email">E-Mail:</label>
-        <input type="email" id="email" th:field="*{email}" required autofocus>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <input autofocus id="email" required th:field="*{email}" type="email">
+        <span th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></span>
 
         <label for="password">Passwort:</label>
-        <input type="password" id="password" th:field="*{password}" required>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <input id="password" required th:field="*{password}" type="password">
+        <span th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
 
         <!-- Add other registration fields as needed -->
 

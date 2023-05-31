@@ -21,9 +21,23 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
-    public void makeBooking(BookingRequestDto bookingRequest, User user) {
-        var booking = new Booking(user, null, bookingRequest.getSelectedCourt(), bookingRequest.getSelectedTime().toLocalDate(),
+    public void makeBooking(BookingRequestDto bookingRequest, User user) throws BookingNotPossibleException {
+        boolean bookingExistsForSelectedCourtDateAndDuration =
+                bookingRepository.existsBookingByDateAndCourtAndStartTimeBetween(
+                        bookingRequest.getSelectedTime().toLocalDate(),
+                        bookingRequest.getSelectedCourt(),
+                        bookingRequest.getSelectedTime().toLocalTime(),
+                        bookingRequest.getSelectedTime().toLocalTime()
+                                .plus(bookingRequest.getSelectedDuration().minusSeconds(1))
+                );
+
+        if (bookingExistsForSelectedCourtDateAndDuration) {
+            throw new BookingNotPossibleException();
+        }
+        var booking = new Booking(user, bookingRequest.getSelectedCourt(),
+                bookingRequest.getSelectedTime().toLocalDate(),
                 bookingRequest.getSelectedTime().toLocalTime(), bookingRequest.getSelectedDuration());
+
         bookingRepository.save(booking);
     }
 
