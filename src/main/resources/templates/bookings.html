@@ -7,11 +7,22 @@
 </head>
 <body>
 
-<form method="get" th:action="@{/bookings}">
-    <label for="datepicker"></label>
-    <input class="box" id="datepicker" name="date" onchange="this.form.submit()" th:value="${currentDate}"
-           type="date"/>
-</form>
+<div class="level m-2">
+    <div class="level-left">
+        <form class="level-item" method="get" th:action="@{/bookings}">
+            <label for="datepicker"></label>
+            <input class="box" id="datepicker" name="date" onchange="this.form.submit()" th:value="${currentDate}"
+                   type="date"/>
+        </form>
+    </div>
+
+    <div class="level-right">
+        <form class="level-item" th:action="@{/logout}" method="post">
+            <button class="button is-primary is-large" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+
 
 <div class="box" th:each="court : ${T(de.zeilfelder.tc.courtbooking.entities.Court).values()}">
     <h2 th:text="${court.getDisplayString()}"></h2>
@@ -23,14 +34,22 @@
                       th:with="previousBooking2HoursLong = ${bookings.get(court)?.get(hour - 1)?.duration()?.toHours() == 2}">
                 <th:block th:case="true">
                     <td class="column" th:text="${bookings.get(court).get(hour).username()}"
-                        th:unless="${previousBooking2HoursLong}"></td>
+                        th:unless="${previousBooking2HoursLong}">
+                    </td>
                     <td class="column" th:if="${previousBooking2HoursLong}"
-                        th:text="${bookings.get(court).get(hour - 1).username()}"></td>
+                        th:text="${bookings.get(court).get(hour - 1).username()}">
+                    </td>
+                    <td class="column">
+                        <a th:href="@{bookings/delete-booking(dateTime=${currentDate.atTime((previousBooking2HoursLong ? hour - 1 : hour), 0)},court=${court})}">
+                            <div>Reservierung stornieren</div>
+                        </a>
+                    </td>
                 </th:block>
                 <th:block th:case="*">
                     <td class="column"><a
                             th:href="@{bookings/make-booking(dateTime=${currentDate.atTime(hour, 0)},court=${court})}">Reservieren</a>
                     </td>
+                    <td class="column"></td>
                 </th:block>
             </th:block>
         </tr>

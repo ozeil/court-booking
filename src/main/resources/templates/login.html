@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link type="text/css" href="/webjars/bulma/css/bulma.min.css" rel="stylesheet">
+</head>
+<body>
+
+<section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                    <form class="box" method="post" th:action="@{/login}">
+                        <div class="field">
+                            <label class="label" for="email">Email</label>
+                            <div class="control has-icons-left">
+                                <input autofocus class="input" id="email" name="username" placeholder="E-Mail"
+                                       required type="email">
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="password">Passwort</label>
+                            <div class="control has-icons-left">
+                                <input class="input" id="password" name="password" placeholder="Passwort"
+                                       required type="password">
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <button class="button is-success">
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

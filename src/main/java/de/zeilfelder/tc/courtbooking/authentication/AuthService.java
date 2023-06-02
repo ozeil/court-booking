@@ -6,17 +6,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegistrationService {
+public class AuthService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void register(UserRegistrationDto request) {
+    public void register(UserRegistrationDto request) throws UserAlreadyExistsException {
+        if (userAlreadyExists(request.email())) {
+            throw new UserAlreadyExistsException("There is an account with that email address: "
+                    + request.email());
+        }
         var user = User.Builder.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())

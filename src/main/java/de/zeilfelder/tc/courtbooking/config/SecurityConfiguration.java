@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,15 +27,29 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.ALL));
+
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/register").hasAuthority(Role.ADMIN.name())
                 )
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/webjars/bulma/css/bulma.min.css").permitAll()
+                )
+                .authorizeHttpRequests((requests) -> requests
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
+                        .loginPage("/login")
                         .defaultSuccessUrl("/bookings", true)
+                        .failureUrl("/login-error")
+                        .permitAll()
+                )
+                .sessionManagement((session) -> session
+                        .invalidSessionUrl("/login")
+                )
+                .logout((logout) -> logout
+                        .addLogoutHandler(clearSiteData)
                 );
 //                .rememberMe(withDefaults());
 
