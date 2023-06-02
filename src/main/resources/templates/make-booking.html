@@ -21,5 +21,11 @@
     <input th:field="*{selectedTime}" type="hidden">
     <button class="button is-primary" type="submit">Reservieren</button>
 </form>
+<div th:if="${isBookingNotPossible}">
+    <p class="block" style="color: red">Buchung steht in Konflikt mit anderer Buchung wegen zu langer Dauer des
+        Spiels.
+    </p>
+    <a class="button is-light is-danger" th:href="@{/bookings}">Zurück zur Buchungsseite</a>
+</div>
 </body>
 </html>

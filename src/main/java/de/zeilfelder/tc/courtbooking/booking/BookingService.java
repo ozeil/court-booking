@@ -35,7 +35,7 @@ public class BookingService {
                                 bookingRequest.getSelectedDuration().minusSeconds(1)));
 
         if (bookingExistsForSelectedCourtDateAndDuration) {
-            throw new BookingNotPossibleException();
+            throw new BookingNotPossibleException("Booking in conflict with other booking.");
         }
 
         var booking = new Booking(

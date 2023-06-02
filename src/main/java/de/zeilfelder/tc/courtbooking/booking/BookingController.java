@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/bookings")
@@ -45,17 +47,19 @@ public class BookingController {
     }
 
     @PostMapping("/make-booking")
-    public String makeBooking(@ModelAttribute @Valid BookingRequestDto bookingRequest, BindingResult bindingResult,
-                              @AuthenticationPrincipal User user) throws BookingNotPossibleException {
-        // TODO handle errors properly when booking goes wrong
-        if (bindingResult.hasErrors()) {
+    public String makeBooking(@ModelAttribute @Valid BookingRequestDto bookingRequest, BindingResult result, Model model,
+                              @AuthenticationPrincipal User user, RedirectAttributes redirectAttributes) {
+        try {
+            bookingService.makeBooking(bookingRequest, user);
+        } catch (BookingNotPossibleException e) {
+            model.addAttribute("isBookingNotPossible", true);
+            model.addAttribute("bookingRequest", bookingRequest);
             return "make-booking";
         }
-        bookingService.makeBooking(bookingRequest, user);
+        redirectAttributes.addAttribute("date", DateTimeFormatter.ISO_DATE.format(bookingRequest.getSelectedTime().toLocalDate()));
         return "redirect:/bookings";
     }
 
-    // TODO add delete functionality
     @GetMapping("/delete-booking")
     public String deleteBooking(@RequestParam LocalDateTime dateTime, @RequestParam Court court,
                                 @AuthenticationPrincipal User user) throws BookingDeletionException {
