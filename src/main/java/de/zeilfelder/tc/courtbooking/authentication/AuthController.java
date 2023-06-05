@@ -44,12 +44,7 @@ public class AuthController {
         return "login";
     }
 
-    // @TODO add error message when login fails
-    @GetMapping("/login-error")
-    public String loginError(Model model) {
-        model.addAttribute("loginError", true);
-        return "login";
-    }
+    // TODO add method to handle batch registration (just use csv (opencsv) - user can export it from excel)
 
-    // TODO add method to handle batch registration
+    // TODO let user change password and send email with initial pw
 }

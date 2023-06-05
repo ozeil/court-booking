@@ -14,7 +14,7 @@
                 <div class="column is-5-tablet is-4-desktop is-3-widescreen">
                     <form class="box" method="post" th:action="@{/login}">
                         <div class="field">
-                            <label class="label" for="email">Email</label>
+                            <label class="label" for="email">E-Mail</label>
                             <div class="control has-icons-left">
                                 <input autofocus class="input" id="email" name="username" placeholder="E-Mail"
                                        required type="email">
@@ -37,6 +37,9 @@
                             <button class="button is-success">
                                 Login
                             </button>
+                        </div>
+                        <div class="field has-text-danger" th:if="${param.error}">Ungültige E-Mail oder falsches
+                            Passwort!
                         </div>
                     </form>
                 </div>

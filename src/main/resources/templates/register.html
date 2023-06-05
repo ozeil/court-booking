@@ -6,13 +6,13 @@
     <link href="/webjars/bulma/css/bulma.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="container">
 <h1 class="block">Registrierung</h1>
 
 <form method="post" th:action="@{/register}" th:object="${user}">
 
     <div class="field">
-        <label for="firstname">Vorname:</label>
+        <label class="label" for="firstname">Vorname</label>
         <div class="control">
             <input class="input" autofocus id="firstname" required th:field="*{firstname}" type="text">
         </div>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="field">
-        <label for="lastname">Nachname:</label>
+        <label class="label" for="lastname">Nachname</label>
         <div class="control">
             <input class="input" id="lastname" required th:field="*{lastname}" type="text">
         </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="field">
-        <label for="email">E-Mail:</label>
+        <label class="label" for="email">E-Mail</label>
         <div class="control">
             <input class="input" id="email" required th:field="*{email}" type="email">
         </div>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="field">
-        <label for="password">Passwort:</label>
+        <label class="label" for="password">Passwort</label>
         <div class="control">
             <input class="input" id="password" required th:field="*{password}" type="password">
         </div>
@@ -44,7 +44,7 @@
     </div>
 
     <div class="field">
-        <label for="role">Passwort:</label>
+        <label class="label" for="role">Rolle</label>
         <div class="control">
             <div class="select">
                 <select id="role" th:field="*{role}">
@@ -57,7 +57,9 @@
 
     <!-- Add other registration fields as needed -->
 
-    <button class="button is-primary" type="submit">Benutzer registrieren</button>
+    <div class="control">
+        <button class="button is-primary" type="submit">Benutzer registrieren</button>
+    </div>
 </form>
 </body>
 </html>

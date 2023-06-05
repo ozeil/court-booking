@@ -42,7 +42,6 @@ public class SecurityConfiguration {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/bookings", true)
-                        .failureUrl("/login-error")
                         .permitAll()
                 )
                 .sessionManagement((session) -> session
