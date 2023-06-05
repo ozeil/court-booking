@@ -3,24 +3,61 @@
 <head>
     <title>Registrierung</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="/webjars/bulma/css/bulma.min.css" rel="stylesheet">
 </head>
 
 <body>
-<div>
-    <h1>Registrierung</h1>
+<h1 class="block">Registrierung</h1>
 
-    <form method="post" th:action="@{/register}" th:object="${user}">
+<form method="post" th:action="@{/register}" th:object="${user}">
+
+    <div class="field">
+        <label for="firstname">Vorname:</label>
+        <div class="control">
+            <input class="input" autofocus id="firstname" required th:field="*{firstname}" type="text">
+        </div>
+        <span th:errors="*{firstname}" th:if="${#fields.hasErrors('firstname')}"></span>
+    </div>
+
+    <div class="field">
+        <label for="lastname">Nachname:</label>
+        <div class="control">
+            <input class="input" id="lastname" required th:field="*{lastname}" type="text">
+        </div>
+        <span th:errors="*{lastname}" th:if="${#fields.hasErrors('lastname')}"></span>
+    </div>
+
+    <div class="field">
         <label for="email">E-Mail:</label>
-        <input autofocus id="email" required th:field="*{email}" type="email">
+        <div class="control">
+            <input class="input" id="email" required th:field="*{email}" type="email">
+        </div>
         <span th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></span>
+    </div>
 
+    <div class="field">
         <label for="password">Passwort:</label>
-        <input id="password" required th:field="*{password}" type="password">
+        <div class="control">
+            <input class="input" id="password" required th:field="*{password}" type="password">
+        </div>
         <span th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
+    </div>
 
-        <!-- Add other registration fields as needed -->
+    <div class="field">
+        <label for="role">Passwort:</label>
+        <div class="control">
+            <div class="select">
+                <select id="role" th:field="*{role}">
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role.getDisplayName()}"></option>
+                </select>
+            </div>
+        </div>
+        <span th:errors="*{role}" th:if="${#fields.hasErrors('role')}"></span>
+    </div>
 
-        <button type="submit">Registrieren</button>
-    </form>
-</div>
+    <!-- Add other registration fields as needed -->
+
+    <button class="button is-primary" type="submit">Benutzer registrieren</button>
+</form>
 </body>
+</html>

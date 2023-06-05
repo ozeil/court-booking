@@ -17,8 +17,10 @@
     </div>
 
     <div class="level-right">
+        <a class="level-item button is-info is-medium" th:if="${isAdmin}" th:href="@{/register}">Neuen Benutzer
+            anlegen</a>
         <form class="level-item" method="post" th:action="@{/logout}">
-            <button class="button is-primary is-large" type="submit">Logout</button>
+            <button class="button is-primary is-medium" type="submit">Logout</button>
         </form>
     </div>
 </div>
@@ -40,14 +42,14 @@
                         th:text="${bookings.get(court).get(hour - 1).username()}">
                     </td>
                     <td class="column">
-                        <a th:href="@{bookings/delete-booking(dateTime=${currentDate.atTime((previousBooking2HoursLong ? hour - 1 : hour), 0)},court=${court})}">
+                        <a th:href="@{/bookings/delete-booking(dateTime=${currentDate.atTime((previousBooking2HoursLong ? hour - 1 : hour), 0)},court=${court})}">
                             <div>Reservierung stornieren</div>
                         </a>
                     </td>
                 </th:block>
                 <th:block th:case="*">
                     <td class="column"><a
-                            th:href="@{bookings/make-booking(dateTime=${currentDate.atTime(hour, 0)},court=${court})}">Reservieren</a>
+                            th:href="@{/bookings/make-booking(dateTime=${currentDate.atTime(hour, 0)},court=${court})}">Reservieren</a>
                     </td>
                     <td class="column"></td>
                 </th:block>

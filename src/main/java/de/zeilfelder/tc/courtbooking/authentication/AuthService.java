@@ -17,15 +17,16 @@ public class AuthService {
     }
 
     public void register(UserRegistrationDto request) throws UserAlreadyExistsException {
-        if (userAlreadyExists(request.email())) {
+        if (userAlreadyExists(request.getEmail())) {
             throw new UserAlreadyExistsException("There is an account with that email address: "
-                    + request.email());
+                    + request.getEmail());
         }
         var user = User.Builder.builder()
-                .firstname(request.firstname())
-                .lastname(request.lastname())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole())
                 .build();
         repository.save(user);
     }

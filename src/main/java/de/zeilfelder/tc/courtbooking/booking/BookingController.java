@@ -1,6 +1,7 @@
 package de.zeilfelder.tc.courtbooking.booking;
 
 import de.zeilfelder.tc.courtbooking.entities.Court;
+import de.zeilfelder.tc.courtbooking.entities.Role;
 import de.zeilfelder.tc.courtbooking.entities.User;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,10 +29,13 @@ public class BookingController {
     @GetMapping
     public String showBookingsForDate(
             @RequestParam(defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            Model model) {
+            @AuthenticationPrincipal User user, Model model) {
         var bookings = bookingService.getBookingsByCourt(date);
         model.addAttribute("currentDate", date);
         model.addAttribute("bookings", bookings);
+        if (user.getRole().equals(Role.ADMIN)) {
+            model.addAttribute("isAdmin", true);
+        }
         return "bookings";
     }
 
@@ -67,5 +71,5 @@ public class BookingController {
         return "redirect:/bookings";
     }
 
-    // TODO add blocker functionality (returning/repeating bookings)
+    // TODO add blocker functionality (returning/repeating bookings, easiest way -> handle like normal but write multiple times for x months)
 }

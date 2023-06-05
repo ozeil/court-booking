@@ -1,5 +1,6 @@
 package de.zeilfelder.tc.courtbooking.authentication;
 
+import de.zeilfelder.tc.courtbooking.entities.Role;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class AuthController {
@@ -18,23 +21,22 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm() {
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new UserRegistrationDto());
+        model.addAttribute("roles", List.of(Role.values()));
         return "register";
     }
 
     @PostMapping("/register")
     public String register(@ModelAttribute("user") @Valid UserRegistrationDto userDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
-
         try {
             authService.register(userDto);
         } catch (UserAlreadyExistsException e) {
             bindingResult.rejectValue("email", "0", "Nutzer mit E-Mail existiert bereits");
+            return "register";
         }
 
-        return "redirect:/login?registered";
+        return "registration-succesful";
     }
 
     @GetMapping("/login")
@@ -42,6 +44,7 @@ public class AuthController {
         return "login";
     }
 
+    // @TODO add error message when login fails
     @GetMapping("/login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
