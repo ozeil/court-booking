@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository repository, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -28,11 +28,19 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public boolean userAlreadyExists(String username) {
-        return repository.existsByEmail(username);
+        return userRepository.existsByEmail(username);
+    }
+
+    public void changePassword(User user, String oldPassword, String newPassword) throws OldPasswordInvalidException {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new OldPasswordInvalidException("Old password not correct");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     // TODO handle limited booking rights (only court 3) for new TI role

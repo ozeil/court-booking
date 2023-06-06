@@ -1,8 +1,7 @@
 package de.zeilfelder.tc.courtbooking.authentication;
 
-import jakarta.validation.constraints.Email;
-
-public class UserAlreadyExistsException extends Throwable {
-    public UserAlreadyExistsException(@Email String s) {
+public class UserAlreadyExistsException extends Exception {
+    public UserAlreadyExistsException(String message) {
+        super(message);
     }
 }

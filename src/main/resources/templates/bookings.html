@@ -19,6 +19,9 @@
     <div class="level-right">
         <a class="level-item button is-info is-medium" th:if="${isAdmin}" th:href="@{/register}">Neuen Benutzer
             anlegen</a>
+        <div class="level-item">
+            <a class="button is-info is-medium" th:href="@{/update-password}">Passwort ändern</a>
+        </div>
         <form class="level-item" method="post" th:action="@{/logout}">
             <button class="button is-primary is-medium" type="submit">Logout</button>
         </form>
