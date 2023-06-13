@@ -2,6 +2,10 @@ version: '3.1'
 services:
   court-booking:
     image: 'court-booking:0.0.1-SNAPSHOT'
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     ports:
       - "8080:8080"
     depends_on:
