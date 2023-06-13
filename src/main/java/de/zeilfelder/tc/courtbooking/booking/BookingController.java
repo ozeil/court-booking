@@ -61,14 +61,14 @@ public class BookingController {
             return "make-booking";
         }
         redirectAttributes.addAttribute("date", DateTimeFormatter.ISO_DATE.format(bookingRequest.getSelectedTime().toLocalDate()));
-        return "redirect:bookings";
+        return "redirect:/bookings";
     }
 
     @GetMapping("/delete-booking")
     public String deleteBooking(@RequestParam LocalDateTime dateTime, @RequestParam Court court,
                                 @AuthenticationPrincipal User user) throws BookingDeletionException {
         bookingService.deleteBooking(dateTime, court, user);
-        return "redirect:bookings";
+        return "redirect:/bookings";
     }
 
     // TODO add blocker functionality (returning/repeating bookings, easiest way -> handle like normal but write multiple times for x months)
