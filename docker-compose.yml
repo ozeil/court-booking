@@ -5,7 +5,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 700MB
     ports:
       - "8080:8080"
     depends_on:
@@ -16,9 +16,12 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=passw0rd
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-
   db:
     image: postgres
+    deploy:
+      resources:
+        limits:
+          memory: 300MB
     ports:
       - "5432:5432"
     environment:
