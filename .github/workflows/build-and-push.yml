@@ -29,7 +29,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.IMAGE_NAME }}
+      run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ github.event.repository.name }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
